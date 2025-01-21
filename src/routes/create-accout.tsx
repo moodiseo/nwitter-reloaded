@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   width: 420px;
   padding: 50px 0px;
 `;
+
 const Title = styled.h1`
   font-size: 42px;
 `;
@@ -40,7 +41,7 @@ const Input = styled.input`
 
 const Error = styled.span`
   font-weight: 600;
-  color: #ed4848;
+  color: tomato;
 `;
 
 export default function CreateAccount() {
@@ -50,7 +51,7 @@ export default function CreateAccount() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const onChange = (e: React.ChangeEvent<HTMLFormElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { name, value },
     } = e;
@@ -72,17 +73,19 @@ export default function CreateAccount() {
         email,
         password
       );
-      console.log(credentials.user);
-      await updateProfile(credentials.user, { displayName: name });
+      await updateProfile(credentials.user, {
+        displayName: name,
+      });
       navigate("/");
     } catch (e) {
+      // setError
     } finally {
       setLoading(false);
     }
   };
   return (
     <Wrapper>
-      <Title>Join X</Title>
+      <Title>Join 𝕏</Title>
       <Form onSubmit={onSubmit}>
         <Input
           onChange={onChange}
@@ -102,15 +105,15 @@ export default function CreateAccount() {
         />
         <Input
           onChange={onChange}
-          name="password"
           value={password}
+          name="password"
           placeholder="Password"
           type="password"
           required
         />
         <Input
           type="submit"
-          value={isLoading ? "Loading..." : "Create Accout"}
+          value={isLoading ? "Loading..." : "Create Account"}
         />
       </Form>
       {error !== "" ? <Error>{error}</Error> : null}
